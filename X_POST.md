@@ -28,7 +28,7 @@ Performance test:
 
 The kicker? "Brave" in your config now means SearXNG SCRAPES Brave Search for free. Not the paid API.
 
-Full tutorial & code: [GitHub Link]
+Full tutorial & code: https://github.com/darksoon/openclaw-searxng
 
 Why this matters:
 • 🛡️ Take back control from API vendors

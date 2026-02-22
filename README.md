@@ -1,24 +1,24 @@
-# 🦞🔍 OpenClaw + SearXNG: Kostenlose Web-Suche für deinen KI-Assistenten
+# 🦞🔍 OpenClaw + SearXNG: Free Web Search for Your AI Assistant
 
-**Brave hat sein Free Tier gekillt? Kein Problem!** Hier ist die Lösung: Self-hosted SearXNG + OpenClaw = **komplett kostenlose Web-Suche** für deinen KI-Assistenten.
+**Brave killed its Free Tier? No problem!** Here's the solution: Self-hosted SearXNG + OpenClaw = **completely free web search** for your AI assistant.
 
 ![OpenClaw + SearXNG](https://img.shields.io/badge/OpenClaw-SearXNG-blue)
-![Kostenlos](https://img.shields.io/badge/Kostenlos-0€-green)
+![Free](https://img.shields.io/badge/Free-0€-green)
 ![Self-Hosted](https://img.shields.io/badge/Self--Hosted-Privacy-orange)
 
-## 🎯 Was du bekommst
+## 🎯 What You Get
 
-| Vorher (Brave API) | Nachher (SearXNG) |
+| Before (Brave API) | After (SearXNG) |
 |-------------------|-------------------|
-| ❌ $10+/Monat | ✅ **0€/Monat** |
-| ❌ Rate Limits | ✅ **Unbegrenzt** |
-| ❌ API-Key nötig | ✅ **Kein API-Key** |
-| ❌ Externe Abhängigkeit | ✅ **100% Self-Hosted** |
-| ❌ Nur Brave Results | ✅ **70+ Search Engines** |
+| ❌ $10+/Month | ✅ **$0/Month** |
+| ❌ Rate Limits | ✅ **Unlimited** |
+| ❌ API Key Required | ✅ **No API Key** |
+| ❌ External Dependency | ✅ **100% Self-Hosted** |
+| ❌ Only Brave Results | ✅ **70+ Search Engines** |
 
-## 🚀 In 5 Minuten fertig
+## 🚀 Ready in 5 Minutes
 
-### 1. SearXNG Container starten
+### 1. Start SearXNG Container
 ```bash
 docker run -d \
   --name searxng \
@@ -28,103 +28,103 @@ docker run -d \
   searxng/searxng:latest
 ```
 
-### 2. JSON API aktivieren
+### 2. Enable JSON API
 ```bash
 docker exec searxng sed -i 's/formats:/formats:\\n  - json/' /etc/searxng/settings.yml
 docker restart searxng
 ```
 
-### 3. OpenClaw Plugin installieren
+### 3. Install OpenClaw Plugin
 ```bash
 npx clawhub install searxng-local-search --force
 ```
 
-### 4. Gateway neustarten
+### 4. Restart Gateway
 ```bash
 openclaw gateway restart
 ```
 
-**Fertig!** Dein OpenClaw sucht jetzt über deine eigene SearXNG-Instanz.
+**Done!** Your OpenClaw now searches through your own SearXNG instance.
 
-## 🔧 Wie es funktioniert
+## 🔧 How It Works
 
 ```
 ┌─────────────┐    ┌─────────────┐    ┌─────────────────┐
-│   OpenClaw  │───▶│   SearXNG   │───▶│ 70+ Suchmaschinen│
-│    (KI)     │◀───│ (Aggregator)│◀───│ Google, DDG, ...│
+│   OpenClaw  │───▶│   SearXNG   │───▶│ 70+ Search Engines│
+│    (AI)     │◀───│ (Aggregator)│◀───│ Google, DDG, ...│
 └─────────────┘    └─────────────┘    └─────────────────┘
       │                    │                    │
       │ Self-Hosted        │ Privacy-Respecting │ Free to use
-      │ 0€ Kosten          │ No Tracking        │ No API Keys
+      │ $0 Cost            │ No Tracking        │ No API Keys
 ```
 
-## 📊 Performance-Vergleich
+## 📊 Performance Comparison
 
 **Test: "Flutter Android Auto 2025"**
-- **Brave API (alt):** 10 Ergebnisse, $0.001 pro Suche
-- **SearXNG (neu):** 27 Ergebnisse, **$0.000 pro Suche**
+- **Brave API (old):** 10 results, $0.001 per search
+- **SearXNG (new):** 27 results, **$0.000 per search**
 
-**Aggregierte Quellen:**
+**Aggregated Sources:**
 - ✅ Google (via Startpage)
 - ✅ DuckDuckGo  
 - ✅ Brave Search
 - ✅ Bing
-- ✅ 70+ weitere Engines
+- ✅ 70+ more engines
 
-## 🛡️ Warum besser?
+## 🛡️ Why Better?
 
-| Kriterium | Brave API | SearXNG |
+| Criteria | Brave API | SearXNG |
 |-----------|-----------|---------|
-| **Kosten** | $10+/Monat | **0€** |
-| **Privatsphäre** | Brave sieht deine Queries | **Nur du** siehst sie |
-| **Redundanz** | Single Point of Failure | **Multi-Engine** |
-| **Kontrolle** | Brave's Regeln | **Deine Regeln** |
-| **Uptime** | Abhängig von Brave | **Deine Infrastruktur** |
+| **Cost** | $10+/Month | **$0** |
+| **Privacy** | Brave sees your queries | **Only you** see them |
+| **Redundancy** | Single Point of Failure | **Multi-Engine** |
+| **Control** | Brave's Rules | **Your Rules** |
+| **Uptime** | Depends on Brave | **Your Infrastructure** |
 
-## 🎭 Real-World Beispiel
+## 🎭 Real-World Example
 
-**Vorher (mit Brave API):**
+**Before (with Brave API):**
 ```bash
-$ openclaw "Was ist das Wetter in Berlin?"
-# ❌ "missing_brave_api_key" - $10 zahlen oder keine Suche
+$ openclaw "What's the weather in Berlin?"
+# ❌ "missing_brave_api_key" - pay $10 or no search
 ```
 
-**Nachher (mit SearXNG):**
+**After (with SearXNG):**
 ```bash
-$ openclaw "Was ist das Wetter in Berlin?"
-# ✅ 25 Ergebnisse von Wetter.com, DWD, Berlin.de, etc.
-# ✅ Kosten: 0€
-# ✅ Privacy: Deine Daten bleiben lokal
+$ openclaw "What's the weather in Berlin?"
+# ✅ 25 results from Wetter.com, DWD, Berlin.de, etc.
+# ✅ Cost: $0
+# ✅ Privacy: Your data stays local
 ```
 
-## 📈 Für wen ist das?
+## 📈 Who Is This For?
 
-- **💰 Sparfüchse:** Keine API-Kosten mehr
-- **🛡️ Privacy-Nerds:** Deine Queries bleiben lokal
-- **⚙️ Self-Hoster:** 100% Kontrolle über deine Infrastruktur
-- **🔧 Tüftler:** Customize deine Search-Engines
-- **🚀 Early Adopters:** Bleib unabhängig von API-Änderungen
+- **💰 Cost Savers:** No more API costs
+- **🛡️ Privacy Nerds:** Your queries stay local
+- **⚙️ Self-Hosters:** 100% control over your infrastructure
+- **🔧 Tinkerers:** Customize your search engines
+- **🚀 Early Adopters:** Stay independent from API changes
 
-## 🚨 Wichtiger Hinweis
+## 🚨 Important Note
 
-**"Brave" in der Config ≠ Brave API mehr!**
-- **Vorher:** `provider: "brave"` = Bezahlte Brave Search API
-- **Nachher:** `provider: "searxng"` = SearXNG scraped Brave Search (kostenlos!)
+**"Brave" in Config ≠ Brave API Anymore!**
+- **Before:** `provider: "brave"` = Paid Brave Search API
+- **After:** `provider: "searxng"` = SearXNG scrapes Brave Search (free!)
 
-## 📚 Vollständiges Tutorial
+## 📚 Complete Tutorial
 
-Siehe [SETUP.md](SETUP.md) für detaillierte Anleitung mit:
+See [SETUP.md](SETUP.md) for detailed guide with:
 - Docker-Compose Setup
 - Unraid Template
 - Troubleshooting
 - Monitoring & Logs
 - Backup & Restore
 
-## 🤝 Beitragen
+## 🤝 Contributing
 
 Found a bug? Have improvements? PRs welcome!
-- [GitHub Repo](https://github.com/yourusername/openclaw-searxng)
-- [Issues](https://github.com/yourusername/openclaw-searxng/issues)
+- [GitHub Repo](https://github.com/darksoon/openclaw-searxng)
+- [Issues](https://github.com/darksoon/openclaw-searxng/issues)
 - [Discord](https://discord.gg/openclaw)
 
 ## 📢 Spread the Word
@@ -137,6 +137,6 @@ Like this setup? Share it!
 
 ---
 
-**TL;DR:** Brave API tot? SearXNG + OpenClaw = Kostenlose, private, self-hosted Web-Suche für deinen KI-Assistenten. 5 Minuten Setup, 0€ Kosten. 🎉
+**TL;DR:** Brave API dead? SearXNG + OpenClaw = Free, private, self-hosted web search for your AI assistant. 5 minute setup, $0 cost. 🎉
 
-*Getagged: #OpenClaw #SearXNG #SelfHosted #Privacy #Kostenlos #KI #AIAssistant #Docker #OpenSource*
+*Tagged: #OpenClaw #SearXNG #SelfHosted #Privacy #Free #AI #AIAssistant #Docker #OpenSource*
