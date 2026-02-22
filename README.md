@@ -2,6 +2,8 @@
 
 **Brave killed its Free Tier? No problem!** Here's the solution: Self-hosted SearXNG + OpenClaw = **completely free web search** for your AI assistant.
 
+🌍 **Choose your language:** [English](#-openclaw--searxng-free-web-search-for-your-ai-assistant) | [Deutsch](README_DE.md)
+
 ![OpenClaw + SearXNG](https://img.shields.io/badge/OpenClaw-SearXNG-blue)
 ![Free](https://img.shields.io/badge/Free-0€-green)
 ![Self-Hosted](https://img.shields.io/badge/Self--Hosted-Privacy-orange)
