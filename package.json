@@ -1,0 +1,40 @@
+{
+  "name": "openclaw-searxng-tutorial",
+  "version": "1.0.0",
+  "description": "Free web search for OpenClaw using self-hosted SearXNG",
+  "main": "scripts/setup.sh",
+  "scripts": {
+    "setup": "./scripts/setup.sh",
+    "test": "./scripts/test.sh",
+    "backup": "./scripts/backup.sh",
+    "restore": "./scripts/restore.sh",
+    "monitor": "./scripts/monitor.sh",
+    "clean": "docker-compose down -v"
+  },
+  "keywords": [
+    "openclaw",
+    "searxng",
+    "self-hosted",
+    "privacy",
+    "ai",
+    "search",
+    "docker",
+    "cost-saving"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/openclaw-searxng.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/openclaw-searxng/issues"
+  },
+  "homepage": "https://github.com/yourusername/openclaw-searxng#readme",
+  "dependencies": {},
+  "devDependencies": {},
+  "engines": {
+    "node": ">=14",
+    "docker": ">=20"
+  }
+}
