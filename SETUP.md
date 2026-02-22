@@ -1,13 +1,13 @@
-# 🛠️ Vollständiges Setup Tutorial
+# 🛠️ Complete Setup Tutorial
 
-## 📋 Voraussetzungen
+## 📋 Prerequisites
 
 - Docker & Docker Compose
-- OpenClaw installiert (lokale Instanz oder Container)
-- 1GB RAM frei für SearXNG
-- Port 8888 frei (oder anderer Port)
+- OpenClaw installed (local instance or container)
+- 1GB RAM free for SearXNG
+- Port 8888 free (or any other port)
 
-## 🐳 Docker Compose Setup (Empfohlen)
+## 🐳 Docker Compose Setup (Recommended)
 
 ```yaml
 # docker-compose.yml
@@ -51,24 +51,24 @@ networks:
     driver: bridge
 ```
 
-**Starten:**
+**Start:**
 ```bash
-# 1. Verzeichnis erstellen
+# 1. Create directory
 mkdir openclaw-searxng && cd openclaw-searxng
 
-# 2. docker-compose.yml erstellen
-nano docker-compose.yml  # oben einfügen
+# 2. Create docker-compose.yml
+nano docker-compose.yml  # paste above
 
-# 3. Starten
+# 3. Start
 docker-compose up -d
 
-# 4. Logs prüfen
+# 4. Check logs
 docker-compose logs -f
 ```
 
 ## 🖥️ Unraid Setup
 
-### Template erstellen
+### Create Template
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
 <Container>
@@ -91,31 +91,31 @@ docker-compose logs -f
 </Container>
 ```
 
-### SearXNG auf Unraid
-1. **CA App**: SearXNG installieren
-2. **Port**: 8888 setzen
-3. **JSON API aktivieren** (siehe unten)
+### SearXNG on Unraid
+1. **CA App**: Install SearXNG
+2. **Port**: Set to 8888
+3. **Enable JSON API** (see below)
 
-## ⚙️ SearXNG Konfiguration
+## ⚙️ SearXNG Configuration
 
-### JSON API aktivieren
+### Enable JSON API
 ```bash
-# In den Container
+# Enter container
 docker exec searxng bash
 
-# Config bearbeiten
+# Edit config
 nano /etc/searxng/settings.yml
 
-# Suchen nach:
+# Find:
 # formats:
 #   - html
 
-# Ändern zu:
+# Change to:
 formats:
   - html
   - json
 
-# Container neustarten
+# Restart container
 docker restart searxng
 ```
 
@@ -124,37 +124,37 @@ docker restart searxng
 docker exec searxng sed -i 's/formats:/formats:\\n  - json/' /etc/searxng/settings.yml && docker restart searxng
 ```
 
-### Testen
+### Test
 ```bash
 curl "http://localhost:8888/search?q=test&format=json" | jq '.results[0]'
 ```
 
-## 🤖 OpenClaw Konfiguration
+## 🤖 OpenClaw Configuration
 
-### Config setzen
+### Set Config
 ```bash
-# In den OpenClaw Container
+# Enter OpenClaw container
 docker exec openclaw bash
 
-# Provider auf searxng setzen
+# Set provider to searxng
 openclaw config set tools.web.search.provider searxng
 
-# Oder Config-Datei direkt bearbeiten
+# Or edit config file directly
 nano /home/openclaw/.openclaw/openclaw.json
-# Ändern: "provider": "brave" → "provider": "searxng"
+# Change: "provider": "brave" → "provider": "searxng"
 ```
 
-### Plugin installieren
+### Install Plugin
 ```bash
 npx clawhub install searxng-local-search --force
 ```
 
-### Gateway neustarten
+### Restart Gateway
 ```bash
 openclaw gateway restart
 ```
 
-## 🔍 Test-Skript
+## 🔍 Test Script
 
 ```bash
 #!/bin/bash
@@ -162,19 +162,19 @@ openclaw gateway restart
 
 echo "🧪 Testing SearXNG + OpenClaw Setup..."
 
-# 1. SearXNG API testen
+# 1. Test SearXNG API
 echo "1. Testing SearXNG JSON API..."
 curl -s "http://localhost:8888/search?q=OpenClaw&format=json&num_results=1" | jq -r '.results[0].title' || echo "❌ SearXNG not responding"
 
-# 2. OpenClaw Config prüfen
+# 2. Check OpenClaw config
 echo "2. Checking OpenClaw config..."
 docker exec openclaw openclaw config get tools.web.search.provider | grep -q "searxng" && echo "✅ Config: searxng" || echo "❌ Config not set"
 
-# 3. Test-Suche durchführen
+# 3. Test search
 echo "3. Performing test search..."
 docker exec openclaw openclaw exec "~/.local/bin/searxng-search 'test search' 1" | head -5
 
-# 4. Kosten-Check
+# 4. Cost check
 echo "4. Cost analysis..."
 echo "   Before (Brave API): ~$10/month for 2000 searches"
 echo "   After (SearXNG): $0/month for unlimited searches"
@@ -186,24 +186,24 @@ echo "✅ Setup complete!"
 ## 🐛 Troubleshooting
 
 ### Problem: "missing_brave_api_key"
-**Lösung:** Config ist noch auf `provider: "brave"`. Ändere zu `provider: "searxng"`.
+**Solution:** Config is still on `provider: "brave"`. Change to `provider: "searxng"`.
 
-### Problem: SearXNG gibt 403 Forbidden
-**Lösung:** JSON Format nicht aktiviert. Siehe "JSON API aktivieren" oben.
+### Problem: SearXNG returns 403 Forbidden
+**Solution:** JSON format not enabled. See "Enable JSON API" above.
 
-### Problem: OpenClaw findet SearXNG nicht
-**Lösung:** 
+### Problem: OpenClaw can't reach SearXNG
+**Solution:** 
 ```bash
-# URL in Container testen
+# Test URL from container
 docker exec openclaw curl -s http://searxng:8080/search?q=test
 
-# Falls nicht erreichbar: Netzwerk prüfen
+# If unreachable: check network
 docker network ls
 docker network inspect openclaw-network
 ```
 
-### Problem: Bootloop nach Config-Änderung
-**Lösung:**
+### Problem: Bootloop after config change
+**Solution:**
 ```bash
 docker exec openclaw openclaw doctor --fix
 docker restart openclaw
@@ -211,24 +211,24 @@ docker restart openclaw
 
 ## 📊 Monitoring
 
-### Logs anzeigen
+### View Logs
 ```bash
-# SearXNG Logs
+# SearXNG logs
 docker logs searxng --tail 50
 
-# OpenClaw Logs  
+# OpenClaw logs  
 docker logs openclaw --tail 50
 
-# Kombinierte Logs
+# Combined logs
 docker-compose logs -f
 ```
 
 ### Performance Monitoring
 ```bash
-# CPU/Memory Usage
+# CPU/Memory usage
 docker stats searxng openclaw
 
-# Request Count
+# Request count
 docker exec searxng tail -f /var/log/searxng/access.log | awk '{print $1}'
 ```
 
@@ -237,13 +237,13 @@ docker exec searxng tail -f /var/log/searxng/access.log | awk '{print $1}'
 #!/bin/bash
 # health-check.sh
 
-# SearXNG Health
+# SearXNG health
 curl -s -o /dev/null -w "%{http_code}" http://localhost:8888/health
-echo " SearXNG HTTP Status"
+echo " SearXNG HTTP status"
 
-# OpenClaw Health
+# OpenClaw health
 docker exec openclaw openclaw doctor --non-interactive
-echo " OpenClaw Health"
+echo " OpenClaw health"
 ```
 
 ## 🔄 Backup & Restore
@@ -256,13 +256,13 @@ BACKUP_DIR="./backup-$(date +%Y%m%d)"
 
 mkdir -p $BACKUP_DIR
 
-# SearXNG Config
+# SearXNG config
 docker cp searxng:/etc/searxng/settings.yml $BACKUP_DIR/searxng-settings.yml
 
-# OpenClaw Config
+# OpenClaw config
 docker cp openclaw:/home/openclaw/.openclaw/openclaw.json $BACKUP_DIR/openclaw-config.json
 
-# Docker Compose
+# Docker compose
 cp docker-compose.yml $BACKUP_DIR/
 
 echo "✅ Backup created in $BACKUP_DIR"
@@ -274,18 +274,18 @@ echo "✅ Backup created in $BACKUP_DIR"
 # restore.sh BACKUP_DIR
 BACKUP_DIR=$1
 
-# SearXNG Config
+# SearXNG config
 docker cp $BACKUP_DIR/searxng-settings.yml searxng:/etc/searxng/settings.yml
 docker restart searxng
 
-# OpenClaw Config  
+# OpenClaw config  
 docker cp $BACKUP_DIR/openclaw-config.json openclaw:/home/openclaw/.openclaw/openclaw.json
 docker restart openclaw
 
 echo "✅ Restored from $BACKUP_DIR"
 ```
 
-## 🚀 Optimierung
+## 🚀 Optimization
 
 ### SearXNG Performance
 ```yaml
@@ -316,20 +316,20 @@ engines:
 
 ### OpenClaw Cache
 ```bash
-# Cache für häufig gesuchte Queries
+# Cache for frequently searched queries
 openclaw config set agents.defaults.cache.enabled true
 openclaw config set agents.defaults.cache.ttl "1h"
 ```
 
-## 📈 Erfolgsmetriken
+## 📈 Success Metrics
 
-Nach der Umstellung tracken:
-- **Kosten:** Von $10+/Monat auf $0
-- **Performance:** Latenz < 500ms pro Suche
-- **Zuverlässigkeit:** 99.9% Uptime
-- **Results:** 2-3x mehr Ergebnisse durch Multi-Engine
+After switching, track:
+- **Cost:** From $10+/Month to $0
+- **Performance:** < 500ms latency per search
+- **Reliability:** 99.9% uptime
+- **Results:** 2-3x more results through multi-engine
 
-## 🆘 Hilfe & Support
+## 🆘 Help & Support
 
 - **GitHub Issues:** [openclaw/openclaw](https://github.com/openclaw/openclaw)
 - **Discord:** [OpenClaw Community](https://discord.gg/openclaw)
@@ -337,6 +337,6 @@ Nach der Umstellung tracken:
 
 ---
 
-**Fertig!** Dein OpenClaw sucht jetzt kostenlos, privat und selbst-gehostet über SearXNG. 🎉
+**Done!** Your OpenClaw now searches for free, privately, and self-hosted via SearXNG. 🎉
 
-*Letzte Aktualisierung: $(date)*
+*Last updated: $(date)*
