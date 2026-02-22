@@ -127,7 +127,6 @@ See [SETUP.md](SETUP.md) for detailed guide with:
 Found a bug? Have improvements? PRs welcome!
 - [GitHub Repo](https://github.com/darksoon/openclaw-searxng)
 - [Issues](https://github.com/darksoon/openclaw-searxng/issues)
-- [Discord](https://discord.gg/openclaw)
 
 ## 📢 Spread the Word
 
